@@ -1,9 +1,12 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useReducer, useState } from "react";
+import { initialState, productReducer } from "../state/ProductState/productReducer";
 
 export const PRODUCT_CONTEXT = createContext();
 
 const ProductProvider = ({ children }) => {
     const [products, setProducts] = useState([]);
+
+    const [state, dispatch] = useReducer(productReducer, initialState);
 
     useEffect(() => {
         fetch(
