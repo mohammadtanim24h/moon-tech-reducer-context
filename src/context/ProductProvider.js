@@ -1,23 +1,32 @@
-import React, { createContext, useContext, useEffect, useReducer, useState } from "react";
-import { initialState, productReducer } from "../state/ProductState/productReducer";
+import React, { createContext, useContext, useEffect, useReducer } from "react";
+import { actionTypes } from "../state/ProductState/actionTypes";
+import {
+    initialState,
+    productReducer,
+} from "../state/ProductState/productReducer";
 
 export const PRODUCT_CONTEXT = createContext();
 
 const ProductProvider = ({ children }) => {
-    const [products, setProducts] = useState([]);
-
     const [state, dispatch] = useReducer(productReducer, initialState);
 
     useEffect(() => {
+        dispatch({ type: actionTypes.FETCHING_START });
         fetch(
             "https://raw.githubusercontent.com/mohammadtanim24h/moon-tech-reducer-context/main/products.json"
         )
             .then((res) => res.json())
-            .then((data) => setProducts(data));
+            .then((data) =>
+                dispatch({ type: actionTypes.FETCHING_SUCCESS, payload: data })
+            )
+            .catch(() => {
+                dispatch({ type: actionTypes.FETCHING_ERROR });
+            });
     }, []);
 
     const value = {
-        data: products,
+        state,
+        dispatch,
     };
 
     return (
