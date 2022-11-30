@@ -23,7 +23,7 @@ const Cart = () => {
         content = (
             <>
                 {cart.map((product, index) => (
-                    <ProductCard key={index} product={product} />
+                    <ProductCard key={index} cart={true} product={product} />
                 ))}
             </>
         );

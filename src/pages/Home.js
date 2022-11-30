@@ -23,7 +23,7 @@ const Home = () => {
         content = (
             <>
                 {products.map((product, index) => (
-                    <ProductCard key={index} product={product} />
+                    <ProductCard key={index} cart={false} product={product} />
                 ))}
             </>
         );
